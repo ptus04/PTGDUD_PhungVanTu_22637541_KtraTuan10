@@ -10,6 +10,7 @@ function App() {
     { id: 5, name: 'Eve', class: '11E', age: 23 },
   ]);
   const [newStudent, setNewStudent] = useState({ name: '', class: '', age: '' });
+  const [editingStudent, setEditingStudent] = useState(null);
 
   const handleDelete = (id) => {
     setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
@@ -23,6 +24,19 @@ function App() {
       ]);
       setNewStudent({ name: '', class: '', age: '' });
     }
+  };
+
+  const handleEditStudent = (student) => {
+    setEditingStudent(student);
+  };
+
+  const handleSaveEdit = () => {
+    setStudents((prevStudents) =>
+      prevStudents.map((student) =>
+        student.id === editingStudent.id ? editingStudent : student
+      )
+    );
+    setEditingStudent(null);
   };
 
   return (
@@ -74,16 +88,63 @@ function App() {
               <td className="border border-gray-300 px-4 py-2">{student.age}</td>
               <td className="border border-gray-300 px-4 py-2">
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mr-2"
                   onClick={() => handleDelete(student.id)}
                 >
                   Xóa
+                </button>
+                <button
+                  className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700"
+                  onClick={() => handleEditStudent(student)}
+                >
+                  Sửa
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {editingStudent && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded shadow-md w-1/3">
+            <h2 className="text-xl font-bold mb-4">Chỉnh sửa thông tin</h2>
+            <input
+              type="text"
+              placeholder="Họ tên"
+              value={editingStudent.name}
+              onChange={(e) => setEditingStudent({ ...editingStudent, name: e.target.value })}
+              className="border border-gray-300 px-2 py-1 mb-2 w-full"
+            />
+            <input
+              type="text"
+              placeholder="Lớp"
+              value={editingStudent.class}
+              onChange={(e) => setEditingStudent({ ...editingStudent, class: e.target.value })}
+              className="border border-gray-300 px-2 py-1 mb-2 w-full"
+            />
+            <input
+              type="number"
+              placeholder="Tuổi"
+              value={editingStudent.age}
+              onChange={(e) => setEditingStudent({ ...editingStudent, age: e.target.value })}
+              className="border border-gray-300 px-2 py-1 mb-2 w-full"
+            />
+            <button
+              onClick={handleSaveEdit}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 mr-2"
+            >
+              Lưu
+            </button>
+            <button
+              onClick={() => setEditingStudent(null)}
+              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
+            >
+              Hủy
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
