@@ -11,6 +11,7 @@ function App() {
   ]);
   const [newStudent, setNewStudent] = useState({ name: '', class: '', age: '' });
   const [editingStudent, setEditingStudent] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleDelete = (id) => {
     setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
@@ -39,37 +40,50 @@ function App() {
     setEditingStudent(null);
   };
 
+  const filteredStudents = students.filter((student) =>
+    student.name.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Student Table</h1>
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Họ tên"
-          value={newStudent.name}
-          onChange={(e) => setNewStudent({ ...newStudent, name: e.target.value })}
-          className="border border-gray-300 px-2 py-1 mr-2"
+          placeholder="Tìm kiếm theo tên"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+          className="border border-gray-300 px-2 py-1 mb-2"
         />
-        <input
-          type="text"
-          placeholder="Lớp"
-          value={newStudent.class}
-          onChange={(e) => setNewStudent({ ...newStudent, class: e.target.value })}
-          className="border border-gray-300 px-2 py-1 mr-2"
-        />
-        <input
-          type="number"
-          placeholder="Tuổi"
-          value={newStudent.age}
-          onChange={(e) => setNewStudent({ ...newStudent, age: e.target.value })}
-          className="border border-gray-300 px-2 py-1 mr-2"
-        />
-        <button
-          onClick={handleAddStudent}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Thêm sinh viên
-        </button>
+        <div>
+          <input
+            type="text"
+            placeholder="Họ tên"
+            value={newStudent.name}
+            onChange={(e) => setNewStudent({ ...newStudent, name: e.target.value })}
+            className="border border-gray-300 px-2 py-1 mr-2"
+          />
+          <input
+            type="text"
+            placeholder="Lớp"
+            value={newStudent.class}
+            onChange={(e) => setNewStudent({ ...newStudent, class: e.target.value })}
+            className="border border-gray-300 px-2 py-1 mr-2"
+          />
+          <input
+            type="number"
+            placeholder="Tuổi"
+            value={newStudent.age}
+            onChange={(e) => setNewStudent({ ...newStudent, age: e.target.value })}
+            className="border border-gray-300 px-2 py-1 mr-2"
+          />
+          <button
+            onClick={handleAddStudent}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Thêm sinh viên
+          </button>
+        </div>
       </div>
       <table className="table-auto w-full border-collapse border border-gray-300">
         <thead>
@@ -81,7 +95,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {students.map((student) => (
+          {filteredStudents.map((student) => (
             <tr key={student.id} className="text-center">
               <td className="border border-gray-300 px-4 py-2">{student.name}</td>
               <td className="border border-gray-300 px-4 py-2">{student.class}</td>
