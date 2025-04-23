@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 
 function App() {
-  const [students, setStudents] = useState([
-    { id: 1, name: 'Alice', class: '10A', age: 20 },
-    { id: 2, name: 'Bob', class: '11B', age: 22 },
-    { id: 3, name: 'Charlie', class: '12C', age: 19 },
-    { id: 4, name: 'David', class: '10D', age: 21 },
-    { id: 5, name: 'Eve', class: '11E', age: 23 },
-    { id: 6, name: 'Frank', class: '10A', age: 18 },
-    { id: 7, name: 'Grace', class: '11B', age: 20 },
-    { id: 8, name: 'Hannah', class: '12C', age: 22 },
-    { id: 9, name: 'Ian', class: '10D', age: 19 },
-    { id: 10, name: 'Jack', class: '11E', age: 21 },
-  ]);
+  const [students, setStudents] = useState(() => {
+    const savedStudents = localStorage.getItem('students');
+    return savedStudents ? JSON.parse(savedStudents) : [
+      { id: 1, name: 'Alice', class: '10A', age: 20 },
+      { id: 2, name: 'Bob', class: '11B', age: 22 },
+      { id: 3, name: 'Charlie', class: '12C', age: 19 },
+      { id: 4, name: 'David', class: '10D', age: 21 },
+      { id: 5, name: 'Eve', class: '11E', age: 23 },
+      { id: 6, name: 'Frank', class: '10A', age: 18 },
+      { id: 7, name: 'Grace', class: '11B', age: 20 },
+      { id: 8, name: 'Hannah', class: '12C', age: 22 },
+      { id: 9, name: 'Ian', class: '10D', age: 19 },
+      { id: 10, name: 'Jack', class: '11E', age: 21 },
+    ];
+  });
+
   const [newStudent, setNewStudent] = useState({ name: '', class: '', age: '' });
   const [editingStudent, setEditingStudent] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [classFilter, setClassFilter] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('students', JSON.stringify(students));
+  }, [students]);
 
   const handleDelete = (id) => {
     setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
