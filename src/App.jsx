@@ -6,6 +6,8 @@ function App() {
     { id: 1, name: 'Alice', class: '10A', age: 20 },
     { id: 2, name: 'Bob', class: '11B', age: 22 },
     { id: 3, name: 'Charlie', class: '12C', age: 19 },
+    { id: 4, name: 'David', class: '10D', age: 21 },
+    { id: 5, name: 'Eve', class: '11E', age: 23 },
   ]);
   const [newStudent, setNewStudent] = useState({ name: '', class: '', age: '' });
 
