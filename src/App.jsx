@@ -61,22 +61,22 @@ function App() {
   );
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Student Table</h1>
-      <div className="mb-4 flex items-center">
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-extrabold text-center text-blue-600 mb-6">Student Management</h1>
+      <div className="mb-6 flex flex-col md:flex-row items-center justify-center gap-4">
         <input
           type="text"
-          placeholder="Tìm kiếm theo tên"
+          placeholder="Search by name"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
-          className="border border-gray-300 px-2 py-1 mr-2"
+          className="border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <select
           value={classFilter}
           onChange={(e) => setClassFilter(e.target.value)}
-          className="border border-gray-300 px-2 py-1"
+          className="border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">Tất cả lớp</option>
+          <option value="">All Classes</option>
           {[...new Set(students.map((student) => student.class))].map((className) => (
             <option key={className} value={className}>
               {className}
@@ -84,44 +84,44 @@ function App() {
           ))}
         </select>
       </div>
-      <div className="mb-4">
-        <div>
+      <div className="mb-6 bg-white p-4 rounded-lg shadow-md">
+        <div className="flex flex-col md:flex-row gap-4">
           <input
             type="text"
-            placeholder="Họ tên"
+            placeholder="Name"
             value={newStudent.name}
             onChange={(e) => setNewStudent({ ...newStudent, name: e.target.value })}
-            className="border border-gray-300 px-2 py-1 mr-2"
+            className="border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="text"
-            placeholder="Lớp"
+            placeholder="Class"
             value={newStudent.class}
             onChange={(e) => setNewStudent({ ...newStudent, class: e.target.value })}
-            className="border border-gray-300 px-2 py-1 mr-2"
+            className="border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="number"
-            placeholder="Tuổi"
+            placeholder="Age"
             value={newStudent.age}
             onChange={(e) => setNewStudent({ ...newStudent, age: e.target.value })}
-            className="border border-gray-300 px-2 py-1 mr-2"
+            className="border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             onClick={handleAddStudent}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            Thêm sinh viên
+            Add Student
           </button>
         </div>
       </div>
-      <table className="table-auto w-full border-collapse border border-gray-300">
+      <table className="table-auto w-full bg-white rounded-lg shadow-md">
         <thead>
-          <tr className="bg-gray-200">
-            <th className="border border-gray-300 px-4 py-2">Tên</th>
-            <th className="border border-gray-300 px-4 py-2">Lớp</th>
-            <th className="border border-gray-300 px-4 py-2">Tuổi</th>
-            <th className="border border-gray-300 px-4 py-2">Hành động</th>
+          <tr className="bg-blue-500 text-white">
+            <th className="px-6 py-3">Name</th>
+            <th className="px-6 py-3">Class</th>
+            <th className="px-6 py-3">Age</th>
+            <th className="px-6 py-3">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -137,42 +137,44 @@ function App() {
       </table>
 
       {editingStudent && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-4 rounded shadow-md w-1/3">
-            <h2 className="text-xl font-bold mb-4">Chỉnh sửa thông tin</h2>
+        <div className="fixed inset-0 bg-gray-800/35 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-bold text-center mb-4">Edit Student</h2>
             <input
               type="text"
-              placeholder="Họ tên"
+              placeholder="Name"
               value={editingStudent.name}
               onChange={(e) => setEditingStudent({ ...editingStudent, name: e.target.value })}
-              className="border border-gray-300 px-2 py-1 mb-2 w-full"
+              className="border border-gray-300 rounded-lg px-4 py-2 mb-4 w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               type="text"
-              placeholder="Lớp"
+              placeholder="Class"
               value={editingStudent.class}
               onChange={(e) => setEditingStudent({ ...editingStudent, class: e.target.value })}
-              className="border border-gray-300 px-2 py-1 mb-2 w-full"
+              className="border border-gray-300 rounded-lg px-4 py-2 mb-4 w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               type="number"
-              placeholder="Tuổi"
+              placeholder="Age"
               value={editingStudent.age}
               onChange={(e) => setEditingStudent({ ...editingStudent, age: e.target.value })}
-              className="border border-gray-300 px-2 py-1 mb-2 w-full"
+              className="border border-gray-300 rounded-lg px-4 py-2 mb-4 w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button
-              onClick={handleSaveEdit}
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 mr-2"
-            >
-              Lưu
-            </button>
-            <button
-              onClick={() => setEditingStudent(null)}
-              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
-            >
-              Hủy
-            </button>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={handleSaveEdit}
+                className="bg-green-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setEditingStudent(null)}
+                className="bg-gray-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
