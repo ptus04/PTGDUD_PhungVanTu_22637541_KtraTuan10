@@ -8,10 +8,16 @@ function App() {
     { id: 3, name: 'Charlie', class: '12C', age: 19 },
     { id: 4, name: 'David', class: '10D', age: 21 },
     { id: 5, name: 'Eve', class: '11E', age: 23 },
+    { id: 6, name: 'Frank', class: '10A', age: 18 },
+    { id: 7, name: 'Grace', class: '11B', age: 20 },
+    { id: 8, name: 'Hannah', class: '12C', age: 22 },
+    { id: 9, name: 'Ian', class: '10D', age: 19 },
+    { id: 10, name: 'Jack', class: '11E', age: 21 },
   ]);
   const [newStudent, setNewStudent] = useState({ name: '', class: '', age: '' });
   const [editingStudent, setEditingStudent] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [classFilter, setClassFilter] = useState('');
 
   const handleDelete = (id) => {
     setStudents((prevStudents) => prevStudents.filter((student) => student.id !== id));
@@ -41,20 +47,35 @@ function App() {
   };
 
   const filteredStudents = students.filter((student) =>
-    student.name.toLowerCase().includes(searchKeyword.toLowerCase())
+    student.name.toLowerCase().includes(searchKeyword.toLowerCase()) &&
+    student.class.toLowerCase().includes(classFilter.toLowerCase())
   );
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Student Table</h1>
-      <div className="mb-4">
+      <div className="mb-4 flex items-center">
         <input
           type="text"
           placeholder="Tìm kiếm theo tên"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
-          className="border border-gray-300 px-2 py-1 mb-2"
+          className="border border-gray-300 px-2 py-1 mr-2"
         />
+        <select
+          value={classFilter}
+          onChange={(e) => setClassFilter(e.target.value)}
+          className="border border-gray-300 px-2 py-1"
+        >
+          <option value="">Tất cả lớp</option>
+          {[...new Set(students.map((student) => student.class))].map((className) => (
+            <option key={className} value={className}>
+              {className}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-4">
         <div>
           <input
             type="text"
